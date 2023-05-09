@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+}
+
+.App-currentTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3%;
+  padding-top: 5%;
+  font-size: calc(10px + 2vmin);
+  align-content: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.App-inputButton {
+  font-size: calc(13px + 2vmin);
+  padding-bottom: 3%;
+}
+
+.App-progressBar {
+  padding: 7%;
+  position: relative;
+}
+
+.App-marks {
+  display: flex;
+}
