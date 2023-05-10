@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
@@ -13,10 +14,10 @@ const useStyles = makeStyles({
     borderRadius: 10,
   },
   cardSize: {
-    border: '2px solid lightgray',
+    border: "2px solid lightgray",
     maxWidth: 1000,
     maxHeight: 1000,
-    margin: "auto"
+    margin: "auto",
   },
   marker: {
     position: "relative",
@@ -34,9 +35,18 @@ const useStyles = makeStyles({
   time: {
     position: "relative",
     transform: "translateX(-50%)",
-    width: 0,
+    fontSize: '13px',
     display: "flex",
     alignItems: "self-end",
+    justifyContent: "center",
+  },
+  percentage: {
+    position: "relative",
+    transform: "translateX(-50%)",
+    color: "black",
+    fontSize: "15px",
+    display: "flex",
+    alignItems: "center",
     justifyContent: "center",
   },
 });
@@ -46,8 +56,14 @@ function App() {
   const myDeposite = 200;
   const softCap = 3000;
   const hardCap = 4000;
-  const startDate = "xx/yy/zz";
-  const endDate = "xx/yy/zz";
+  const totalCap = 5000;
+  const start = "Tue May 09 2023 09:00:00 GMT-0700 (Pacific Daylight Time)";
+  const startDate = new Date(start);
+  const formattedStartDate = `${startDate.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })} ${startDate.toLocaleTimeString("en-US", {hour12: false})} GMT`;
+  const end = "Thu May 10 2023 09:00:00 GMT-0700 (Pacific Daylight Time)";
+  const endDate = new Date(end);
+  const formattedEndDate = `${endDate.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })} ${endDate.toLocaleTimeString("en-US", {hour12: false})} GMT`;
+
   const [currentTime, setCurrentTime] = useState(new Date());
   const [progress, setProgress] = useState(0);
   const [color, setColor] = useState("primary");
@@ -101,6 +117,11 @@ function App() {
             variant="outlined"
             color="default"
             margin="dense"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">ETH</InputAdornment>
+              ),
+            }}
             // value={text}
             // onChange={handleChange}
           />
@@ -117,27 +138,36 @@ function App() {
             <div className="App-marks">
               <div
                 className={classes.marker}
-                style={{ left: `${(softCap / hardCap) * 100}%` }}
+                style={{ left: `${(softCap / totalCap) * 100}%` }}
               >
                 <h3>Softcap</h3>
               </div>
-              <div className={classes.marker} style={{ left: `${100}%` }}>
+              <div
+                className={classes.marker}
+                style={{ left: `${(hardCap / totalCap) * 100}%` }}
+              >
                 <h3>Hardcap</h3>
               </div>
             </div>
             <LinearProgress
               variant="determinate"
-              value={80}
+              value={progress}
               color={color}
               classes={{ root: classes.root }}
             />
+            <div
+              className={classes.percentage}
+              style={{ left: `${progress}%` }}
+            >
+              {progress}%
+            </div>
           </ThemeProvider>
           <div className="App-marks">
-            <div className={classes.time} style={{ left: `${0}%` }}>
-              <h3>{startDate}</h3>
+            <div className={classes.time} style={{ left: `${6}%` }}>
+              <h3>{formattedStartDate}</h3>
             </div>
-            <div className={classes.time} style={{ left: `${100}%` }}>
-              <h3>{endDate}</h3>
+            <div className={classes.time} style={{ left: `${73}%` }}>
+              <h3>{formattedEndDate}</h3>
             </div>
           </div>
         </div>
